@@ -1,0 +1,27 @@
+models:
+  - name: stg_ecommerce__distribution_centers
+    description: "This model is a staging model for the distribution centers in the ecommerce dataset. It prepares the data for further analysis by cleaning and transforming it."
+    columns:
+      - name: id
+        description: "Unique identifier for each distribution center."
+        tests:
+          -  not_null
+          - unique
+
+      - name: name
+        description: "Name of the distribution center."
+
+      - name: latitude
+        description: "Latitude coordinate of the distribution center."
+        tests:
+          -  not_null
+
+      - name: longitude
+        description: "Longitude coordinate of the distribution center."
+        tests:
+          -  not_null
+
+      - name: distribution_center_geom
+        description: "Geometric representation of the distribution center."
+        tests:
+          -  not_null

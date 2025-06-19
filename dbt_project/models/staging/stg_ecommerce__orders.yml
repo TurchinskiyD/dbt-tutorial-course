@@ -1,0 +1,42 @@
+models:
+  - name: stg_ecommerce__orders
+    description: "Table containing order details from the ecommerce dataset."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+        tests:
+          -  unique
+          - not_null
+
+      - name: user_id
+        description: ""
+
+      - name: status
+        description: "Current status of the order.
+          Possible values include: Processing, Cancelled, Shipped, Complete, Returned."
+        tests:
+          - accepted_values:
+              values:
+                - Processing
+                - Cancelled
+                - Shipped
+                - Complete
+                - Returned
+
+      - name: gender
+        description: ""
+
+      - name: created_at
+        description: ""
+
+      - name: returned_at
+        description: ""
+
+      - name: shipped_at
+        description: ""
+
+      - name: delivered_at
+        description: ""
+
+      - name: num_of_item
+        description: ""

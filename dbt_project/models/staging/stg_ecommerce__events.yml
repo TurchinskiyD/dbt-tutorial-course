@@ -1,0 +1,73 @@
+models:
+  - name: stg_ecommerce__events
+    description: "Table containing event details from the ecommerce dataset."
+    columns:
+      - name: id
+        description: "Unique identifier for each event."
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "Identifier for the user associated with the event."
+
+      - name: sequence_number
+        description: "Sequence number of the event for the user, indicating the order of events."
+
+      - name: session_id
+        description: "Identifier for the session during which the event occurred."
+
+      - name: created_at
+        description: "Timestamp when the event occurred."
+
+      - name: ip_address
+        description: "IP address of the user when the event occurred."
+        tests:
+          - not_null
+
+      - name: city
+        description: "City from which the event was triggered."
+        tests:
+          - not_null
+
+      - name: state
+        description: "State from which the event was triggered."
+        tests:
+          - not_null
+
+      - name: postal_code
+        description: "Postal code from which the event was triggered."
+        tests:
+          - not_null
+
+      - name: browser
+        description: "Browser used by the user when the event occurred."
+        tests:
+          - not_null
+
+      - name: traffic_source
+        description: "Source of the traffic that led to the event, such as 'Facebook', 'Adwords', 'Email', 'YouTube', or 'Organic'."
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Facebook
+                - Adwords
+                - Email
+                - YouTube
+                - Organic
+
+      - name: user_id
+        description: "Identifier for the user associated with the event."
+
+      - name: event_type
+        description: "Type of the event, such as 'cancel', 'cart', 'department', 'home', 'product', or 'purchase'."
+        tests:
+          - accepted_values:
+              values:
+                - cancel
+                - cart
+                - department
+                - home
+                - product
+                - purchase
