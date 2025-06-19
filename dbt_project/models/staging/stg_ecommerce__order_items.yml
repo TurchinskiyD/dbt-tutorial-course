@@ -1,6 +1,6 @@
 models:
   - name: stg_ecommerce__order_items
-    description: ""
+    description: "Staging model for order items"
     columns:
       - name: order_item_id
         description: "Unique identifier for the order item"
@@ -9,13 +9,25 @@ models:
           - unique
 
       - name: order_id
-        description: ""
+        description: "Unique identifier for the order"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ecommerce__orders')
+              field: order_id
 
       - name: user_id
         description: ""
+        tests:
+          -  not_null
 
       - name: product_id
         description: ""
+        tests:
+          -  not_null
+          - relationships:
+              to: ref('stg_ecommerce__products')
+              field: product_id
 
       - name: inventory_item_id
         description: ""
@@ -36,4 +48,6 @@ models:
         description: ""
 
       - name: sale_price
-        description: ""
+        description: "Sale price of the order item"
+        tests:
+          - not_null

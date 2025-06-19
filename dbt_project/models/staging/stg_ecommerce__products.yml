@@ -1,14 +1,17 @@
 models:
   - name: stg_ecommerce__products
-    description: ""
+    description: "Table containing product details from the ecommerce dataset."
     columns:
       - name: product_id
         description: "Unique identifier for the product"
         tests:
           - not_null
+          - unique
 
       - name: cost
-        description: ""
+        description: "How much the product costs to the company"
+        tests:
+          - not_null
 
       - name: category
         description: ""
@@ -20,10 +23,21 @@ models:
         description: ""
 
       - name: retail_price
-        description: ""
+        description: "How much the product costs to the customer"
+        tests:
+          - not_null
 
       - name: department
-        description: ""
+        description: "Where the item is Menswear, Womenswear, etc."
+        tests:
+          -  not_null
+          - accepted_values:
+              values:
+                - "Men"
+                - "Women"
+              # quote defaults to true, but this just shows how you could set it to
+              # false if you wanted to have non-string values (e.g. numbers or a TRUE/FALSE column)
+              quote: true
 
       - name: sku
         description: ""
