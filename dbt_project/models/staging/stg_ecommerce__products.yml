@@ -13,15 +13,24 @@ models:
       - name: cost
         description: "How much the product costs to the company"
         tests:
-          - not_null:
-              warn_if: '>10'
-              error_if: '>100'
-
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000
+              severity: warn
 
       - name: retail_price
         description: "How much the product costs to the customer"
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000
+              severity: warn
+          - dbt_utils.expression_is_true:
+              name: retail_price_greater_than_cost
+              expression: "> cost"
+              where: "retail_price IS NOT NULL AND cost IS NOT NULL"
 
       - name: department
         description: "Where the item is Menswear, Womenswear, etc."
