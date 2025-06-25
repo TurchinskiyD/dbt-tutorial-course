@@ -6,6 +6,8 @@ models:
         tests:
           - unique
           - not_null
+          - primary_key:
+              severity: error
 
       - name: order_id
         tests:
@@ -15,12 +17,6 @@ models:
       - &user_id
         name: user_id
         description: "Unique identifier for a user"
-        tests:
-          - not_null
-
-
-      - name: order_date
-        description: "Date when the order was placed"
         tests:
           - not_null
 
@@ -45,11 +41,15 @@ models:
           - not_null
 
       - name: item_profit
-        description: "item_sale_price minus product_cost"
+        description: "sale_price minus product_cost"
         tests:
           - not_null
+          - dbt_utils.expression_is_true:
+              expression: "= (sale_price - product_cost)"
 
       - name: item_discount
-        description: "product_retail_price minus item_sale_price"
+        description: "product_retail_price minus sale_price"
         tests:
           - not_null
+          - dbt_utils.expression_is_true:
+              expression: "= (product_retail_price - sale_price)"

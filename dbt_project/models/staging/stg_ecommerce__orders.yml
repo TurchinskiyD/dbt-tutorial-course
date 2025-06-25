@@ -5,8 +5,10 @@ models:
       - name: order_id
         description: "Unique identifier for each order."
         tests:
-          -  unique
+          - unique
           - not_null
+          - primary_key:
+              severity: error
 
       - name: user_id
         description: ""
@@ -18,6 +20,7 @@ models:
         description: "Current status of the order.
           Possible values include: Processing, Cancelled, Shipped, Complete, Returned."
         tests:
+          - not_null
           - accepted_values:
               values:
                 - Processing
@@ -40,20 +43,32 @@ models:
         tests:
           - not_null:
               where: "status = 'Returned'"
+          - dbt_utils.expression_is_true:
+              name: returned_at_after_created_at
+              expression: ">= created_at"
+              where: "delivered_at IS NOT NULL AND returned_at IS NOT NULL"
 
       - name: shipped_at
         description: "When the order was shipped"
         tests:
           - not_null:
               where: "delivered_at IS NOT NULL OR status = 'Shipped'"
+          - dbt_utils.expression_is_true:
+              expression: ">= created_at"
+              where: "shipped_at IS NOT NULL"
 
       - name: delivered_at
         description: "When the order was delivered"
         tests:
           - not_null:
               where: "returned_at IS NOT NULL OR status = 'Complete'"
+          - dbt_utils.expression_is_true:
+              expression: ">= shipped_at"
+              where: "delivered_at IS NOT NULL AND shipped_at IS NOT NULL"
 
-      - name: num_items_ordered
+      - name: num_of_item
         description: "Number of items in the order"
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0

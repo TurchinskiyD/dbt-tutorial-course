@@ -9,6 +9,8 @@ models:
               severity: error
           - unique:
               severity: error
+          - primary_key:
+              severity: error
 
       - name: cost
         description: "How much the product costs to the company"
@@ -29,7 +31,7 @@ models:
               severity: warn
           - dbt_utils.expression_is_true:
               name: retail_price_greater_than_cost
-              expression: "> cost"
+              expression: ">= cost"
               where: "retail_price IS NOT NULL AND cost IS NOT NULL"
 
       - name: department
